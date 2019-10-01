@@ -1,0 +1,17 @@
+val testdata=sc.textFile("/home/ubuntu/switchJobData/testdata.dat")
+
+testdata.count
+
+testdata.collect.flatMap(line=>line.split("\s")).map(word=>(word,1))
+
+testdata.collect.flatMap(line=>line.split(" ")).map(word=>(word,1))
+
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_)
+
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).filter(wordCount => wordCount._2>5 ).foreach(println)
+
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1))
+
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey().foreach(println)
+
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey().take(5).foreach(println)
