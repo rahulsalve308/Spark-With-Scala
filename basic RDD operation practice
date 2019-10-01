@@ -14,4 +14,8 @@ testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map
 
 testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey().foreach(println)
 
+//ascending sort --> this will give least popular 5 words
 testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey().take(5).foreach(println)
+
+//descending sort --> this will give most popular 5 words
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey(false).take(5).foreach(println)
