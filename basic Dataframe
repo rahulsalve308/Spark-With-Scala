@@ -1,0 +1,7 @@
+val salesData = spark.read.csv("/home/cloudera/RahulData/500000SalesRecords.csv").
+
+val salesData = spark.read.csv("/home/cloudera/RahulData/500000SalesRecords.csv").take(3)
+
+val salesData = spark.read.csv("/home/cloudera/RahulData/500000SalesRecords.csv").sort("_c13").take(3)
+
+val salesData = spark.read.csv("/home/cloudera/RahulData/500000SalesRecords.csv").sort("_c13").explain
