@@ -1,0 +1,31 @@
+//this reads the data file which is there on local system and creates an RDD out of it
+val testdata=sc.textFile("/home/ubuntu/switchJobData/testdata.dat")
+
+
+//this prints no of elements in a loaded rdd
+testdata.count
+
+
+//This will generate the array of words in a file delimited by space
+testdata.collect.flatMap(line=>line.split(" "))
+
+//This will transform flatMap output in the form of (word,1) 
+testdata.collect.flatMap(line=>line.split(" ")).map(word=>(word,1))
+
+//this will reduce output by adding the value part per key
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_)
+
+//It is reading generated pair RDD and applying filter on value part and print it afterward
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).filter(wordCount => wordCount._2>5 ).foreach(println)
+
+//It is changing key to value and vise versa (k,v) => (v,k)
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1))
+
+This code sorts the pair rdd data on the basis of value and print sorted rdd
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey().foreach(println)
+
+//ascending sort --> this will give least popular 5 words
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey().take(5).foreach(println)
+
+//descending sort --> this will give most popular 5 words
+testdata.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_).map(wordcount=>(wordcount._2,wordcount._1)).sortByKey(false).take(5).foreach(println)
